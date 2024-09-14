@@ -22,17 +22,17 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Set environment variable
-      shell: bash
-      run: |
-        echo "ENVIRONMENT=${{ inputs.environment }}" >> $GITHUB_ENV
-        echo "REPO_NAME=${{ inputs.repository-name }}" >> $GITHUB_ENV
+#    - name: Set environment variable
+#      shell: bash
+#      run: |
+#        echo "ENVIRONMENT=${{ inputs.environment }}" >> $GITHUB_ENV
+#        echo "REPO_NAME=${{ inputs.repository-name }}" >> $GITHUB_ENV
 
     - name: check vars
       shell: bash
       run: |
-        echo ${{ env.REPO_NAME }}
-        echo ${{ env.ENVIRONMENT }}
+        echo ${{ inputs.repository-name }}
+        echo ${{ inputs.environment }}
 
     - name: Checkout Repository
       uses: actions/checkout@master
