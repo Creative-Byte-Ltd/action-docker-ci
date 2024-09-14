@@ -2,7 +2,7 @@
 
 ```yaml
 - name: Use Docker Build and Push Composite Action
-  uses: owner/docker-build-action-repo/.github/actions/docker-build-push@main
+  uses: Creative-Byte-Ltd/action-docker-ci@main
   with:
     dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
     dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
