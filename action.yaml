@@ -24,7 +24,9 @@ runs:
   steps:
     - name: Set environment variable
       shell: bash
-      run: echo "ENVIRONMENT=${{ inputs.environment }}" >> $GITHUB_ENV
+      run: |
+        echo "ENVIRONMENT=${{ inputs.environment }}" >> $GITHUB_ENV
+        echo "REPO_NAME=${{ inputs.repository-name }}" >> $GITHUB_ENV
 
     - name: Checkout Repository
       uses: actions/checkout@master
@@ -55,5 +57,8 @@ runs:
       with:
         context: .
         push: true
-        tags: ${{ inputs.dockerhub-username }}/{{ inputs.repository-name }}:${{ env.ENVIRONMENT }}-latest,${{ inputs.dockerhub-username }}/{{ inputs.repository-name }}:${{ env.ENVIRONMENT }}-${{ steps.autotag.outputs.tag }}
+        tags: ${{ inputs.dockerhub-username }}/{{ env.REPO_NAME }}:${{ env.ENVIRONMENT }}-latest,${{ inputs.dockerhub-username }}/{{ env.REPO_NAME }}:${{ env.ENVIRONMENT }}-${{ steps.autotag.outputs.tag }}
         labels: ${{ steps.metadata.outputs.labels }}
+
+#        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.ENVIRONMENT }}-latest, ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.ENVIRONMENT }}-${{ steps.autotag.outputs.tag }}
+
