@@ -52,8 +52,5 @@ runs:
       with:
         context: .
         push: true
-        tags: ${{ inputs.dockerhub-username }}/{{ inputs.repository-name }}:${{ ${{ inputs.environment }} }}-latest,${{ inputs.dockerhub-username }}/{{ inputs.repository-name }}:${{ ${{ inputs.environment }} }}-${{ steps.autotag.outputs.tag }}
+        tags: ${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }} }}-latest,${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ ${{ inputs.environment }} }}-${{ steps.autotag.outputs.tag }}
         labels: ${{ steps.metadata.outputs.labels }}
-
-#        tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.ENVIRONMENT }}-latest, ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.ENVIRONMENT }}-${{ steps.autotag.outputs.tag }}
-
