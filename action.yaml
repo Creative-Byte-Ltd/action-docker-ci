@@ -29,6 +29,7 @@ runs:
         echo "REPO_NAME=${{ inputs.repository-name }}" >> $GITHUB_ENV
 
     - name: check vars
+      shell: bash
       run: |
         echo ${{ env.REPO_NAME }}
         echo ${{ env.ENVIRONMENT }}
