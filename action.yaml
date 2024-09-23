@@ -23,11 +23,6 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Checkout Repository
-      uses: actions/checkout@master
-      with:
-        ref: main
-
     - name: Autotag
       id: autotag
       uses: anothrNick/github-tag-action@v1
