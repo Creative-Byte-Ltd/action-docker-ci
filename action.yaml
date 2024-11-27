@@ -3,6 +3,10 @@ name: 'Docker Build and Push'
 description: 'Build Docker image and push to Docker Hub'
 
 inputs:
+  dockerfile:
+    description: 'Specify a custom Dockerfile. Defaults to Dockerfile.'
+    required: false
+    default: ''
   dockerhub-username:
     description: 'DockerHub username'
     required: true
@@ -51,6 +55,7 @@ runs:
       uses: docker/build-push-action@v6
       with:
         context: .
+        file: ${{ inputs.dockerfile || 'Dockerfile' }}
         push: true
         tags: ${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }}-latest,${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }}-${{ steps.autotag.outputs.tag }}
         labels: ${{ steps.metadata.outputs.labels }}
