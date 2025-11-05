@@ -4,7 +4,7 @@ description: 'Build Docker image and push to Docker Hub'
 
 inputs:
   dockerfile:
-    description: 'Specify a custom Dockerfile. Defaults to Dockerfile.'
+    description: 'Specify a custom Dockerfile.prod. Defaults to Dockerfile.prod.'
     required: false
     default: ''
   dockerhub-username:
@@ -27,12 +27,15 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Autotag
+    - name: Create tag
+      uses: mathieudutour/github-tag-action@v6.2
       id: autotag
-      uses: anothrNick/github-tag-action@v1
-      env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        WITH_V: false
+      with:
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         release_branches: dev
+         default_bump: minor
+         tag_prefix: ""             # Removes the leading "v"
+         pre_release_branches: ""   # Disables "-dev" style suffixes
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -50,7 +53,7 @@ runs:
       uses: docker/build-push-action@v6
       with:
         context: .
-        file: ${{ inputs.dockerfile || 'Dockerfile' }}
+        file: ${{ inputs.dockerfile || 'Dockerfile.prod' }}
         push: true
-        tags: ${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }}-latest,${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }}-${{ steps.autotag.outputs.tag }}
+        tags: ${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }}-latest,${{ inputs.dockerhub-username }}/${{ inputs.repository-name }}:${{ inputs.environment }}-${{ steps.autotag.outputs.new_tag }}
         labels: ${{ steps.metadata.outputs.labels }}
